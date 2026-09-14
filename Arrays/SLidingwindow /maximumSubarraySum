@@ -1,0 +1,25 @@
+class Solution:
+    def maximumSubarraySum(self, nums: List[int], k: int) -> int:
+        
+        seen = set()
+        current_sum = 0
+        max_sum = 0
+        left = 0
+
+        for right in range(len(nums)):
+
+            # Add current element
+            current_sum += nums[right]
+            seen.add(nums[right])
+
+            # Keep window size exactly k
+            if right - left + 1 > k:
+                current_sum -= nums[left]
+                seen.remove(nums[left])
+                left += 1
+
+            # Check if window has k distinct elements
+            if right - left + 1 == k and len(seen) == k:
+                max_sum = max(max_sum, current_sum)
+
+        return max_sum
